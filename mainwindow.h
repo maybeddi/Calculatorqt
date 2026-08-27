@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
+//обьявление переменных, сигналов и функций кнопок. Тут нет логики
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
