@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <Qstring>
+#include <QString>
 //обьявление переменных, сигналов и функций кнопок. Тут нет логики
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,7 +20,7 @@ public:
 
 private slots:
     void onDigitClicked(int digit); //слот для цифр
-    void onOperationClicked(const Qstring &op); // слот для операций
+    void onOperationClicked(const QString &op); // слот для операций
     void onEqualsClicked(); // слот для равно
     void onDeleteClicked(); // слот для удаления
     void onDotClicked(); // слот для точки
@@ -28,6 +28,6 @@ private:
     Ui::MainWindow *ui;
 
     double currentValue = 0.0;
-    Qstring currentOperation = "";
+    QString currentOperation = "";
 };
 #endif // MAINWINDOW_H
