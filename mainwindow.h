@@ -26,6 +26,8 @@ private slots:
     void onDotClicked(); // слот для точки
 private:
     Ui::MainWindow *ui;
+    //текущее состояние калькулятора
+    void setupConnections(); //метод для подключения
 
     double currentValue = 0.0;
     QString currentOperation = "";
