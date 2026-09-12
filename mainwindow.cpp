@@ -57,3 +57,88 @@ void MainWindow::setupConnections()
             this,&MainWindow::onEqualsClicked);
 
 }
+// реализация слотов
+void MainWindow::onDigitClicked(int digit){
+    double currentText = ui->lcdNumber->value(); // текущее состояние дисплея
+    if(currentText == "0"){
+        ui->lcdNumber->display(digit);
+    }else{
+        ui->lcdNumber->display(currentText + QString::number(digit));
+    }
+    qDebug()<<"[DEBUG] Нажата цифра: " << digit;
+}
+
+void MainWindow::onOperationClicked(const QString &op){
+    currentValue = ui->lcdNumber->value(); // текущее число на экране
+    currentOperation = op; //операция которую нажали
+    ui->lcdNumber->display(0);//очищаем экран для ввода второго числа
+
+    qDebug() << "[DEBUG] Операция:" << op << "первое число:" << currentValue;
+}
+
+void MainWindow::onEqualsClicked(){
+    double secondValue = ui->lcdNumber->value;
+    double rezult = 0.0;
+
+    if(currentOperation == "+"){
+        rezult = currentValue + secondValue;
+    }else if(currentOperation == "-"){
+        rezult = currentValue - secondValue;
+    }else if(currentOperation == "*"){
+        rezult = currentValue * secondValue;
+    }else if(currentOperation == "/"){
+        if (secondValue == 0.0){
+            ui->lcdNumber->display(0);
+            qDebug() << "[Error] Деление на ноль!";
+            return;
+        }
+        rezult = currentValue / secondValue;
+    }else if (currentOperation == "%") {
+        result = currentValue * secondValue / 100.0;
+    }else{
+        qDebug() << "[WARNING] операция не нажата.";
+    }
+
+    ui->lcdNumber->display(rezult); // вывод результата операции на экран
+    currentValue = rezult; // сохраняем результат для цепочки вычислений
+}
+
+void MainWindow::onDeleteClicked(){
+    ui->lcdNumber->display(0);
+
+    currentValue = 0.0;
+    currentOperation = "";
+
+    qDebug() << "[DEBUG] Очистили экран";
+}
+
+void MainWindow::onDotClicked(){
+    double currentNumber = ui->lcdNumber->value();
+
+    // Преобразуем в строку для проверки
+    QString currentText = QString::number(currentNumber, 'f', 10);
+
+    // Убираем лишние нули
+    while (currentText.endsWith('0') && currentText.contains('.')) {
+        currentText.chop(1);
+    }
+    if (currentText.endsWith('.')) {
+        currentText.chop(1);
+    }
+
+    // Проверяем, есть ли уже точка
+    if (currentText.contains('.')) {
+        qDebug() << "[DEBUG] Точка уже добавлена";
+        return;
+    }
+
+    // Добавляем точку
+    if (currentNumber == 0.0) {
+        ui->lcdNumber->display("0.");
+    } else {
+        ui->lcdNumber->display(currentText + ".");
+    }
+
+    qDebug() << "[DEBUG] Добавлена точка";
+}
+
